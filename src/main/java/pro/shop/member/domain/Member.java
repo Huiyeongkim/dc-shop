@@ -1,4 +1,4 @@
-package pro.shop.member;
+package pro.shop.member.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -49,8 +49,9 @@ public class Member {
 
     @Column(name = "flag", length = 5)
     private String flag;
-    public Member(){}
-    public Member(UUID id,
+    protected Member(){}
+
+    private Member(UUID id,
                   String email,
                   String name,
                   String password,
@@ -93,12 +94,22 @@ public class Member {
         }
     }
 
-    public void update(String email,
-                         String name,
-                         String password,
-                         String phone,
-                         String saltKey,
-                         String flag) {
+    public static Member create(String email,
+                                String name,
+                                String password,
+                                String phone,
+                                String saltKey,
+                                String flag
+    ) {
+        return new Member(UUID.randomUUID(), email, name, password, phone, saltKey, flag);
+    }
+
+    public void updateInformation(String email,
+                       String name,
+                       String password,
+                       String phone,
+                       String saltKey,
+                       String flag) {
         this.email = email;
         this.name = name;
         this.password = password;

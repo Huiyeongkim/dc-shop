@@ -1,7 +1,6 @@
-package pro.shop.member;
+package pro.shop.member.application.dto;
 
-
-public record MemberRequest(
+public record MemberCommand(
         String email,
         String name,
         String password,
@@ -9,5 +8,4 @@ public record MemberRequest(
         String saltKey,
         String flag
 ) {
-
 }
