@@ -3,12 +3,11 @@ package pro.shop.payment.presentation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.shop.common.ResponseEntity;
 import pro.shop.payment.application.PaymentService;
 import pro.shop.payment.application.dto.PaymentInfo;
+import pro.shop.payment.presentation.dto.PaymentRequest;
 
 import java.util.List;
 
@@ -25,5 +24,9 @@ public class PaymentController {
         return paymentService.findAll(pageable);
     }
 
-
+    @Operation(summary = "토스 결제 승인", description = "토스 결제 완료 후 paymentkey/orderId/amount를 전달받아 결제를 승인한다.")
+    @PostMapping("/confirm")
+    public ResponseEntity<PaymentInfo> confirm(@RequestBody PaymentRequest request) {
+        return paymentService.confirm(request.toCommand());
+    }
 }

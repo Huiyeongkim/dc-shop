@@ -24,6 +24,6 @@ api:
 
 payment:
   toss:
-    secrete-key: ${TOSS_SECRET_KEY}
-    success-url: ${TOSS_SUCCESS_URL}
-    fail-url: ${TOSS_FAIL_URL}
+    secrete-key: ${TOSS_SECRET_KEY:}
+    success-url: ${TOSS_SUCCESS_URL:}
+    fail-url: ${TOSS_FAIL_URL:}
