@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ProductRequest(
+        UUID sellerId,
         String name,
         String description,
         BigDecimal price,
@@ -16,6 +17,6 @@ public record ProductRequest(
 
     public ProductCommand toCommand() {
         UUID operator = operatorId != null ? UUID.fromString(operatorId) : null;
-        return new ProductCommand(name, description, price, stock, status, operator);
+        return new ProductCommand(sellerId, name, description, price, stock, status, operator);
     }
 }

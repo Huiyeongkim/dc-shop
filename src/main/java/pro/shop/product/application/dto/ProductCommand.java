@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ProductCommand(
+        UUID sellerId,
         String name,
         String description,
         BigDecimal price,

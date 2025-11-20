@@ -32,9 +32,14 @@ public class ProductService {
 
     @Transactional
     public ResponseEntity<ProductInfo> create(ProductCommand command) {
-        Product product = Product.create(command.name(),
-                command.description(), command.price(),
-                command.stock(), command.status(), command.operatorId());
+        Product product = Product.create(
+                command.sellerId(),
+                command.name(),
+                command.description(),
+                command.price(),
+                command.stock(),
+                command.status(),
+                command.operatorId());
         Product savedProduct = productRepository.save(product);
         return new ResponseEntity<>(HttpStatus.OK.value(), ProductInfo.from(savedProduct), 1);
     }
