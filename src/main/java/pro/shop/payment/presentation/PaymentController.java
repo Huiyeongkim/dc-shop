@@ -6,7 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pro.shop.common.ResponseEntity;
 import pro.shop.payment.application.PaymentService;
+import pro.shop.payment.application.dto.PaymentFailureInfo;
 import pro.shop.payment.application.dto.PaymentInfo;
+import pro.shop.payment.presentation.dto.PaymentFailureRequest;
 import pro.shop.payment.presentation.dto.PaymentRequest;
 
 import java.util.List;
@@ -29,4 +31,11 @@ public class PaymentController {
     public ResponseEntity<PaymentInfo> confirm(@RequestBody PaymentRequest request) {
         return paymentService.confirm(request.toCommand());
     }
+
+    @Operation(summary = "결제 실패 기록", description = "토스 결제 실패 정보를 저장한다.")
+    @PostMapping("/fail")
+    public ResponseEntity<PaymentFailureInfo> fail(@RequestBody PaymentFailureRequest request) {
+        return paymentService.recordFailure(request.toCommand());
+    }
+
 }

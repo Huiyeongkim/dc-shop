@@ -7,10 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pro.shop.common.ResponseEntity;
 import pro.shop.payment.application.dto.PaymentCommand;
+import pro.shop.payment.application.dto.PaymentFailCommand;
+import pro.shop.payment.application.dto.PaymentFailureInfo;
 import pro.shop.payment.application.dto.PaymentInfo;
 import pro.shop.payment.client.TossPaymentClient;
 import pro.shop.payment.client.dto.TossPaymentResponse;
 import pro.shop.payment.domain.Payment;
+import pro.shop.payment.domain.PaymentFailure;
+import pro.shop.payment.domain.PaymentFailureRepository;
 import pro.shop.payment.domain.PaymentRepository;
 
 import java.time.LocalDateTime;
@@ -22,6 +26,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final TossPaymentClient tossPaymentClient;
+    private final PaymentFailureRepository paymentFailureRepository;
 
     public ResponseEntity<List<PaymentInfo>> findAll(Pageable pageable) {
         Page<Payment> page = paymentRepository.findAll(pageable);
@@ -47,6 +52,17 @@ public class PaymentService {
         return new ResponseEntity<>(HttpStatus.CREATED.value(), PaymentInfo.from(savedPayment), 1);
     }
 
-
+    public ResponseEntity<PaymentFailureInfo> recordFailure(PaymentFailCommand command) {
+        PaymentFailure failure = PaymentFailure.from(
+                command.orderId(),
+                command.paymentKey(),
+                command.errorCode(),
+                command.errorMessage(),
+                command.amount(),
+                command.rawPayload()
+        );
+        PaymentFailure saved = paymentFailureRepository.save(failure);
+        return new ResponseEntity<>(HttpStatus.OK.value(), PaymentFailureInfo.from(saved), 1);
+    }
 
 }
