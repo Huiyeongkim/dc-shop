@@ -18,9 +18,21 @@ spring:
         format_sql: true
         jdbc:
           time_zone: Asia/Seoul
+  batch:
+    jdbc:
+      initialize-schema: never
+  task:
+    scheduling:
+      cron:
+        settlement: ${SETTLEMENT_CRON:-}
+
 
 api:
   v1: /api/v1
+
+settlement:
+  async:
+    enabled: ${SETTLEMENT_ASYNC:false}
 
 payment:
   toss:
