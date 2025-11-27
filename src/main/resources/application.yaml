@@ -10,6 +10,11 @@ spring:
   cloud:
     config:
       fail-fast: true
+  elasticsearch:
+    uris: http://localhost:9200
+    connection-timeout: 1s
+    socket-timeout: 3s
+
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/shop?currentSchema=public&options=-c%20TimeZone=Asia/Seoul
 #    driver-class-name: org.postgresql.Driver
