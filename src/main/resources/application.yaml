@@ -1,41 +1,65 @@
+server:
+  port: 8081
 spring:
   application:
-    name: shop
+    name: shop-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active: default
+  cloud:
+    config:
+      fail-fast: true
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/shop?currentSchema=public&options=-c%20TimeZone=Asia/Seoul
+#    driver-class-name: org.postgresql.Driver
+#    username: kimhuiyeong
+#    password:
+#  jackson:
+#    time-zone: Asia/Seoul
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        jdbc:
+#          time_zone: Asia/Seoul
+#  batch:
+#    jdbc:
+#      initialize-schema: never
+#  task:
+#    scheduling:
+#      cron:
+#        settlement: ${SETTLEMENT_CRON:-}
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/shop?currentSchema=public&options=-c%20TimeZone=Asia/Seoul
-    driver-class-name: org.postgresql.Driver
-    username: kimhuiyeong
-    password:
-  jackson:
-    time-zone: Asia/Seoul
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        jdbc:
-          time_zone: Asia/Seoul
-  batch:
-    jdbc:
-      initialize-schema: never
-  task:
-    scheduling:
-      cron:
-        settlement: ${SETTLEMENT_CRON:-}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info, prometheus
+        
+kafka:
+  # 로컬 도커 브로커 포트
+  bootstrap-servers: localhost:29092
+  topic:
+    # 주문 이벤트를 주고받는 토픽 이름
+    async-orders: shop.async-orders.v1
+  consumer:
+    # 샘플 컨슈머 그룹
+    group-id: shop-async-consumer
 
-
-api:
-  v1: /api/v1
-
-settlement:
-  async:
-    enabled: ${SETTLEMENT_ASYNC:false}
-
-payment:
-  toss:
-    secrete-key: ${TOSS_SECRET_KEY:}
-    success-url: ${TOSS_SUCCESS_URL:}
-    fail-url: ${TOSS_FAIL_URL:}
+#
+#api:
+#  v1: /api/v1
+#
+#settlement:
+#  async:
+#    enabled: ${SETTLEMENT_ASYNC:false}
+#
+#payment:
+#  toss:
+#    secrete-key: ${TOSS_SECRET_KEY:}
+#    success-url: ${TOSS_SUCCESS_URL:}
+#    fail-url: ${TOSS_FAIL_URL:}
