@@ -23,7 +23,7 @@ public class TossPaymentClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${payment.toss.secrete-key}")
+    @Value("${payment.toss.secret-key}")
     private String secretKey;
 
     public TossPaymentResponse confirm(PaymentCommand command) {
